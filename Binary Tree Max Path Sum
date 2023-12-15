@@ -1,0 +1,62 @@
+import java.util.*;
+
+public class Main {
+    static int index = 0;
+
+    public static void main(String args[]) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.nextLine();
+        String[] S = s.split(" ");
+        Node root = buildTree(S);
+        System.out.print(maxPathSum(root));
+
+    }
+
+    public static void preOrder(Node root) {
+        if (root != null) {
+            System.out.print(root.data + " ");
+            preOrder(root.left);
+            preOrder(root.right);
+        }
+    }
+
+    public static Node buildTree(String[] s) {
+        if (index >= s.length || s[index].equals("NULL")) {
+            index++;
+            return null;
+        }
+        Node nn = new Node(Integer.parseInt(s[index]));
+        index++;
+        nn.left = buildTree(s);
+        nn.right = buildTree(s);
+        return nn;
+    }
+
+    static int max = Integer.MIN_VALUE;
+
+    public static int maxPathSum(Node root) {
+        max = Integer.MIN_VALUE;
+        findPath(root);
+        return max;
+    }
+
+    public static int findPath(Node root) {
+        if (root == null) {
+            return 0;
+        }
+        int left = Math.max(findPath(root.left), 0);
+        int right = Math.max(findPath(root.right), 0);
+        max = Math.max(max, root.data + left + right);
+        return root.data + Math.max(left, right);
+    }
+}
+
+class Node {
+    int data;
+    Node left;
+    Node right;
+
+    public Node(int val) {
+        data = val;
+    }
+}
