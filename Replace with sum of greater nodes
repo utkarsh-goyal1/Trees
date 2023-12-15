@@ -1,0 +1,72 @@
+import java.util.*;
+
+public class Main {
+    static int sum = 0;
+
+    public class BST {
+        public class Node {
+            int data;
+            Node left;
+            Node right;
+        }
+
+        private Node root;
+
+        public BST(int[] in) {
+            root = createTree(in, 0, in.length - 1);
+        }
+
+        public void replaceWLS() {
+            sum = 0;
+            replaceWLS(root);
+        }
+
+        public void replaceWLS(Node node) {
+            if (node == null) {
+                return;
+            }
+            replaceWLS(node.right);
+            node.data += sum;
+            sum = node.data;
+            replaceWLS(node.left);
+        }
+
+        public void preOrder() {
+            preOrder(root);
+        }
+
+        private void preOrder(Node root) {
+            if (root != null) {
+                System.out.print(root.data + " "); // Print without newline
+                preOrder(root.left);
+                preOrder(root.right);
+            }
+        }
+
+        public Node createTree(int[] in, int si, int ei) {
+            if (si > ei) {
+                return null;
+            }
+            int mid = (si + ei) / 2;
+            Node nn = new Node();
+            nn.data = in[mid];
+            nn.left = createTree(in, si, mid - 1);
+            nn.right = createTree(in, mid + 1, ei);
+            return nn;
+        }
+    }
+
+    public static void main(String args[]) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] A = new int[n];
+        for (int i = 0; i < A.length; i++)
+        {
+            A[i] = sc.nextInt();
+        }
+        Main main = new Main(); // Create an instance of the Main class
+        BST bst = main.new BST(A); // Create an instance of the inner BST class
+        bst.replaceWLS();
+        bst.preOrder();
+    }
+}
