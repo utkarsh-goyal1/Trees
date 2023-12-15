@@ -1,0 +1,58 @@
+import java.util.*;
+public class Main {
+	class BinaryTree
+	{
+		private Node root;
+		Scanner sc=new Scanner(System.in);
+		class Node
+		{
+			int val;
+			Node left;
+			Node right;
+			public Node(int val)
+			{
+				this.val=val;
+			}
+		}
+		public BinaryTree()
+		{
+			root=createTree();
+		}
+		public Node createTree()
+		{
+			int item=sc.nextInt();
+			Node nn=new Node(item);
+			boolean left=sc.nextBoolean();
+			if(left)
+			{
+				nn.left=createTree();
+			}
+			boolean right=sc.nextBoolean();
+			if(right)
+			{
+				nn.right=createTree();
+			}
+			return nn;
+		}
+		public int height()
+		{
+			return height(root);
+		}
+		private int height(Node root)
+		{
+			if(root==null)
+			{
+				return 0;
+			}
+			int left=height(root.left);
+			int right=height(root.right);
+			return Math.max(left,right)+1;
+		}
+		
+	}
+    public  static void main (String args[]) {
+		Main m=new Main();
+		BinaryTree bt=m.new BinaryTree();
+		System.out.println(bt.height());
+    }
+}
